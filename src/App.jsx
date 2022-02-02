@@ -1,9 +1,28 @@
-const App = () => {
+import { useWeb3 } from "@3rdweb/hooks";
+
+function App() {
+  const { connectWallet, address } = useWeb3();
+  console.log("👋 Address:", address);
+
+  if (!address) {
+    return(
+      <div className="landing">
+        <h1>Welcome to permacultureDAO</h1>
+        <button
+          onClick={() => connectWallet('injected')}
+          className="btn-hero"
+        >
+          Connect your wallet
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="landing">
-      <h1>Welcome to My DAO</h1>
+      <h1>👀 wallet connected, now what!</h1>
     </div>
-  );
-};
+  )
+}
 
 export default App;
