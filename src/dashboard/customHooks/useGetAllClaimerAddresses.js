@@ -19,7 +19,7 @@ export default function useGetAllClaimerAddresses(hasClaimedNFT, bundleDropModul
       .catch((err) => {
         console.error("failed to get member list", err);
       });
-  }, [hasClaimedNFT]);
+  }, [hasClaimedNFT, bundleDropModule]);
 
   return [memberAddresses, setMemberAddresses];
 }

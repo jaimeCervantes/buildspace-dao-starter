@@ -28,7 +28,7 @@ export default function useHasVoted(hasClaimedNFT, address, proposals, voteModul
       .catch((err) => {
         console.error("failed to check if wallet has voted", err);
       });
-  }, [hasClaimedNFT, proposals, address]);
+  }, [hasClaimedNFT, proposals, address, voteModule]);
 
   return [hasVoted, setHasVoted];
 }

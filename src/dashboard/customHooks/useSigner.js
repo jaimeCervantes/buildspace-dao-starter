@@ -8,5 +8,5 @@ export default function useSigner(sdk, provider) {
   useEffect(() => {
     // enables us to interact with our deployed contract!
     sdk.setProviderOrSigner(signer);
-  }, [signer]);
+  }, [signer, sdk]);
 }

@@ -18,7 +18,7 @@ export default function useGetAllProposals(hasClaimedNFT, voteModule) {
       .catch((err) => {
         console.error("failed to get proposals", err);
       });
-  }, [hasClaimedNFT]);
+  }, [hasClaimedNFT, voteModule]);
 
   return [proposals, setProposals];
 }

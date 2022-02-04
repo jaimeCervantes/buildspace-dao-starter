@@ -18,7 +18,7 @@ export default function useGetAllHoldersBalances(hasClaimedNFT, tokenModule) {
       .catch((err) => {
         console.error("failed to get token amounts", err);
       });
-  }, [hasClaimedNFT]);
+  }, [hasClaimedNFT, tokenModule]);
 
   return [memberTokenAmounts, setMemberTokenAmounts];
 }

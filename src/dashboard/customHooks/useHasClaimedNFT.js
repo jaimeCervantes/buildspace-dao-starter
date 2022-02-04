@@ -24,7 +24,7 @@ function useHasClaimedNFT(address, bundleDropModule) {
         console.error("failed to nft balance", error);
       });
 
-  }, [address]);
+  }, [address, bundleDropModule]);
 
   return [hasClaimedNFT, setHasClaimedNFT];
 }
