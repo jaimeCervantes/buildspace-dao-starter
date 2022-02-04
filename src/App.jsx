@@ -1,6 +1,7 @@
-import { useWeb3 } from "@3rdweb/hooks";
 import { useState, useEffect, useMemo } from 'react';
+import { useWeb3 } from "@3rdweb/hooks";
 import { ThirdwebSDK } from '@3rdweb/sdk';
+import { UnsupportedChainIdError } from "@web3-react/core";
 import { ethers } from 'ethers';
 
 const sdk = new ThirdwebSDK('rinkeby');
@@ -10,7 +11,7 @@ const tokenModule = sdk.getTokenModule('0x22308c5a6B8C32ccf865574Fcb0546c6924F72
 const voteModule = sdk.getVoteModule('0x1D845D7CA43E640E9c7bA6555aD4A889BA7DFC44');
 
 function App() {
-  const { connectWallet, address, provider } = useWeb3();
+  const { connectWallet, address, error, provider } = useWeb3();
   console.log("👋 Address:", address);
   const [hasClaimedNFT, setHasClaimedNFT] = useState(false);
   // isClaiming lets us easily keep a loading state while the NFT is minting.
@@ -24,11 +25,6 @@ function App() {
   const [proposals, setProposals] = useState([]);
   const [isVoting, setIsVoting] = useState(false);
   const [hasVoted, setHasVoted] = useState(false);
-
-  // A fancy function to shorten someones wallet address, no need to show the whole thing. 
-  const shortenAddress = (str) => {
-    return str.substring(0, 6) + "..." + str.substring(str.length - 4);
-  };
 
   // This useEffect grabs all the addresses of our members holding our NFT.
   useEffect(() => {
@@ -162,6 +158,18 @@ function App() {
       });
   }, [hasClaimedNFT, proposals, address]);
 
+  if (error instanceof UnsupportedChainIdError ) {
+    return (
+      <div className="unsupported-network">
+        <h2>Please connect to Rinkeby</h2>
+        <p>
+          This dapp only works on the Rinkeby network, please switch networks
+          in your connected wallet.
+        </p>
+      </div>
+    );
+  }
+
   if (!address) {
     return(
       <div className="landing">
@@ -179,7 +187,7 @@ function App() {
   if (hasClaimedNFT) {
     return (
       <div className="member-page">
-        <h1>🥝 Permaculture DAO Member Page</h1>
+        <h1>🥝 Permaculture DAO</h1>
         <p>Congratulations on being a member</p>
         <div>
           <div>
@@ -195,7 +203,7 @@ function App() {
                 {memberList.map((member) => {
                   return (
                     <tr key={member.address}>
-                      <td>{shortenAddress(member.address)}</td>
+                      <td className="word-break">{member.address}</td>
                       <td>{member.tokenAmount}</td>
                     </tr>
                   );
