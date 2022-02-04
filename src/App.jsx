@@ -19,7 +19,7 @@ const tokenModule = sdk.getTokenModule('0x22308c5a6B8C32ccf865574Fcb0546c6924F72
 const voteModule = sdk.getVoteModule('0x1D845D7CA43E640E9c7bA6555aD4A889BA7DFC44');
 
 function App() {
-  const { address, error, provider } = useWeb3();
+  const { connectWallet, address, error, provider } = useWeb3();
   useSigner(sdk, provider);
   const [hasClaimedNFT, setHasClaimedNFT] = useHasClaimedNFT(address, bundleDropModule)
   const [memberAddresses] = useGetAllClaimerAddresses(hasClaimedNFT, bundleDropModule);;
@@ -68,6 +68,7 @@ function App() {
     <Wallet
       setHasClaimedNFT={setHasClaimedNFT}
       bundleDropModule={bundleDropModule}
+      connectWallet={connectWallet}
     ></Wallet>
   );
 
