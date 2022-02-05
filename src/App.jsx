@@ -69,6 +69,7 @@ function App() {
       setHasClaimedNFT={setHasClaimedNFT}
       bundleDropModule={bundleDropModule}
       connectWallet={connectWallet}
+      address={address}
     ></Wallet>
   );
 
