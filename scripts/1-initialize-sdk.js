@@ -8,6 +8,8 @@ dotenv.config();
 
 const privateKey = process.env.PRIVATE_KEY;
 const alchemyApiUrl = process.env.ALCHEMY_API_URL;
+const walletAddress = process.env.WALLET_ADDRESS;
+
 
 if (!privateKey) {
   console.log('Private key not found.');
@@ -15,6 +17,11 @@ if (!privateKey) {
 
 if (!alchemyApiUrl) {
   console.log('Alchemy API URL not found.');
+}
+
+// The Address is used for the last script executions
+if (!walletAddress) {
+  console.log('Wallet Address was not found');
 }
 
 const provider = ethers.getDefaultProvider(alchemyApiUrl);

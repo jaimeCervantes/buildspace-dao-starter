@@ -12,6 +12,7 @@ import useGetAllProposals from './dashboard/customHooks/useGetAllProposals.js';
 import useHasVoted from './dashboard/customHooks/useHasVoted.js';
 import MemberList from './dashboard/MemberList.js';
 import ProposalsForm from './dashboard/ProposalsForm.js';
+import submitVotes from './dashboard/submitVotes.js';
 
 const sdk = new ThirdwebSDK('rinkeby');
 const bundleDropModule = sdk.getBundleDropModule('0x989BAd4F17E96d38a1B073CcE2461f9722f2282c');
@@ -21,12 +22,12 @@ const voteModule = sdk.getVoteModule('0x1D845D7CA43E640E9c7bA6555aD4A889BA7DFC44
 function App() {
   const { connectWallet, address, error, provider } = useWeb3();
   useSigner(sdk, provider);
-  const [hasClaimedNFT, setHasClaimedNFT] = useHasClaimedNFT(address, bundleDropModule)
-  const [memberAddresses] = useGetAllClaimerAddresses(hasClaimedNFT, bundleDropModule);;
+  const [hasClaimedNFT, setHasClaimedNFT] = useHasClaimedNFT(address, bundleDropModule);
+  const [memberAddresses] = useGetAllClaimerAddresses(hasClaimedNFT, bundleDropModule);
   const [memberTokenAmounts] = useGetAllHoldersBalances(hasClaimedNFT, tokenModule);
   const memberList = useMemberList(memberAddresses, memberTokenAmounts);
   const [proposals] = useGetAllProposals(hasClaimedNFT, voteModule);
-  const [hasVoted, setHasVoted] = useHasVoted(hasClaimedNFT, address, proposals, voteModule);
+  const [hasVoted, setHasVoted] = useHasVoted(hasClaimedNFT, address, proposals[0], voteModule);
   const [isVoting, setIsVoting] = useState(false);
 
   if (error instanceof UnsupportedChainIdError ) {
@@ -52,11 +53,16 @@ function App() {
               proposals={proposals}
               isVoting={isVoting}
               hasVoted={hasVoted}
-              setIsVoting={setIsVoting}
-              setHasVoted={setHasVoted}
-              address={address}
-              tokenModule={tokenModule}
-              voteModule={voteModule}
+              onSubmit={
+                (e) => submitVotes({
+                  proposals,
+                  address,
+                  setIsVoting,
+                  setHasVoted,
+                  tokenModule,
+                  voteModule
+                }, e)
+              }
             >
             </ProposalsForm>
         </div>

@@ -7,13 +7,11 @@ export default function useGetAllProposals(hasClaimedNFT, voteModule) {
     if (!hasClaimedNFT) {
       return;
     }
-    // A simple call to voteModule.getAll() to grab the proposals.
+    // to grab the proposals.
     voteModule
       .getAll()
       .then((proposals) => {
-        // Set state!
         setProposals(proposals);
-        console.log("🌈 Proposals:", proposals)
       })
       .catch((err) => {
         console.error("failed to get proposals", err);

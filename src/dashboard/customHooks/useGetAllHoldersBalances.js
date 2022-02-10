@@ -8,7 +8,6 @@ export default function useGetAllHoldersBalances(hasClaimedNFT, tokenModule) {
       return;
     }
 
-    // Grab all the balances.
     tokenModule
       .getAllHolderBalances()
       .then((amounts) => {
